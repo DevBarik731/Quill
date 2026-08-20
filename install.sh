@@ -12,7 +12,7 @@ mkdir -p "$BIN_DIR"
 # Create the wrapper script
 cat << EOF > "$BIN_DIR/Quill"
 #!/bin/bash
-python3 "$APP_DIR/notes_app.py" "\$@"
+python3 "$APP_DIR/quill.py" "\$@"
 EOF
 
 # Make the wrapper executable
