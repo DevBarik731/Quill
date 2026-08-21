@@ -19,5 +19,29 @@ EOF
 chmod +x "$BIN_DIR/quill"
 
 echo "Quill installed successfully!"
+
+if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
+    echo "It looks like $BIN_DIR is not in your PATH."
+    read -p "Would you like to add it to your profile (e.g. ~/.bashrc, ~/.zshrc)? [y/N] " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        PROFILE=""
+        if [[ "$SHELL" == *"zsh"* ]]; then
+            PROFILE="$HOME/.zshrc"
+        elif [[ "$SHELL" == *"bash"* ]]; then
+            PROFILE="$HOME/.bashrc"
+        fi
+        
+        if [ -n "$PROFILE" ]; then
+            echo "" >> "$PROFILE"
+            echo 'export PATH="$HOME/.local/bin:$PATH"' >> "$PROFILE"
+            echo "Added to $PROFILE. Please run 'source $PROFILE' or restart your terminal to apply changes."
+        else
+            echo "Could not detect shell profile. Please add 'export PATH=\"\$HOME/.local/bin:\$PATH\"' manually."
+        fi
+    else
+        echo "Please add $BIN_DIR to your PATH manually."
+    fi
+fi
+
 echo "You can now run 'quill' from your terminal."
-echo "(Ensure that ~/.local/bin is in your system PATH)"
