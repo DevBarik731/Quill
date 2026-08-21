@@ -40,7 +40,12 @@ class NotesApp(QMainWindow):
         self.new_btn = QPushButton("New Note")
         self.new_btn.clicked.connect(self.create_new_note)
         
+        self.delete_btn = QPushButton("Delete Note")
+        self.delete_btn.setObjectName("DeleteBtn")
+        self.delete_btn.clicked.connect(self.delete_note)
+        
         left_layout.addWidget(self.new_btn)
+        left_layout.addWidget(self.delete_btn)
         left_layout.addWidget(self.notes_list)
         
         # Right Panel (Editor)
@@ -114,6 +119,15 @@ class NotesApp(QMainWindow):
             }
             QPushButton:pressed {
                 background-color: #0d47a1;
+            }
+            QPushButton#DeleteBtn {
+                background-color: #d32f2f;
+            }
+            QPushButton#DeleteBtn:hover {
+                background-color: #c62828;
+            }
+            QPushButton#DeleteBtn:pressed {
+                background-color: #b71c1c;
             }
             QSplitter::handle {
                 background-color: transparent;
@@ -192,6 +206,21 @@ class NotesApp(QMainWindow):
             QMessageBox.information(self, "Success", "Note saved successfully.")
         else:
             QMessageBox.warning(self, "Error", "No note selected to save.")
+
+    def delete_note(self):
+        if self.current_note:
+            reply = QMessageBox.question(self, "Confirm Delete",
+                                         f"Are you sure you want to delete '{self.current_note}'?",
+                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                filepath = os.path.join(self.notes_dir, self.current_note)
+                if os.path.exists(filepath):
+                    os.remove(filepath)
+                self.text_editor.clear()
+                self.current_note = None
+                self.load_notes_list()
+        else:
+            QMessageBox.warning(self, "Error", "No note selected to delete.")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

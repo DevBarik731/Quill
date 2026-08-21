@@ -30,5 +30,5 @@ chmod +x install.sh
 This will install Quill as a terminal command, allowing you to launch the application from anywhere using:
 
 ```bash
-Quill
+quill
 ```

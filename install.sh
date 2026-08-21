@@ -10,14 +10,14 @@ echo "Installing Quill Notes App..."
 mkdir -p "$BIN_DIR"
 
 # Create the wrapper script
-cat << EOF > "$BIN_DIR/Quill"
+cat << EOF > "$BIN_DIR/quill"
 #!/bin/bash
 python3 "$APP_DIR/quill.py" "\$@"
 EOF
 
 # Make the wrapper executable
-chmod +x "$BIN_DIR/Quill"
+chmod +x "$BIN_DIR/quill"
 
 echo "Quill installed successfully!"
-echo "You can now run 'Quill' from your terminal."
+echo "You can now run 'quill' from your terminal."
 echo "(Ensure that ~/.local/bin is in your system PATH)"
